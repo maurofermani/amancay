@@ -1,4 +1,4 @@
-package padron;
+package padron.familias;
 
 import java.awt.Component;
 import javax.swing.ImageIcon;

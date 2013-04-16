@@ -1,7 +1,7 @@
-package padron;
+package padron.familias;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import registros.Item;
+import registros.ItemReg;
 
 /**
  *
@@ -9,19 +9,24 @@ import registros.Item;
  */
 public class Nodo extends DefaultMutableTreeNode {
 
-    public TipoNodo tipo;
-    public Item item;
+    private TipoNodo tipo;
+    private ItemReg item;
 
     public Nodo(TipoNodo tipo) {
+        super();
         this.tipo = tipo;
-        
+    }
+    
+    public Nodo(TipoNodo tipo, Nodo padre) {
+        this(tipo);
+        setParent(padre);
     }
 
-    public Item getItem() {
+    public ItemReg getItem() {
         return item;
     }
 
-    public void setItem(Item item) {
+    public void setItem(ItemReg item) {
         this.item = item;
     }
 
@@ -38,7 +43,7 @@ public class Nodo extends DefaultMutableTreeNode {
         if (getItem() == null) {
             return "";
         } else {
-            return getItem().getDescripcion();
+            return getItem().toString();
         }
     }
    

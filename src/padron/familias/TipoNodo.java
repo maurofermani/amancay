@@ -1,4 +1,4 @@
-package padron;
+package padron.familias;
 
 /**
  *
