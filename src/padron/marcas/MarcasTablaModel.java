@@ -2,7 +2,7 @@ package padron.marcas;
 
 import herramientas.GenericTableModel;
 import java.util.ArrayList;
-import registros.MarcaReg;
+import registros.padron.MarcaReg;
 
 /**
  *

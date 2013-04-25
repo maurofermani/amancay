@@ -1,20 +1,37 @@
 package amancay;
 
-import db.Session;
 import ex.Logger;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
+import padron.articulos.InternalArticulos;
 import padron.familias.InternalFamilias;
 import padron.marcas.InternalMarcas;
 import padron.talles.InternalTalles;
+import utils.Msg;
 
 /**
  *
  * @author fermani
  */
 public class Amancay extends javax.swing.JFrame {
+
+    public static class ExceptionHandler
+            implements Thread.UncaughtExceptionHandler {
+
+        @Override
+        public void uncaughtException(Thread thread, Throwable thrown) {
+            if (thrown instanceof Exception) {
+                Msg.msgException(null, (Exception) thrown);
+            } else {
+                Msg.msgException(null, new Exception(thrown));
+            }
+
+        }
+
+
+    }
 
     public Amancay() {
         initComponents();
@@ -30,8 +47,10 @@ public class Amancay extends javax.swing.JFrame {
         menuInternalFamilias = new javax.swing.JMenuItem();
         menuInternalMarcas = new javax.swing.JMenuItem();
         menuInternalTalles = new javax.swing.JMenuItem();
+        menuInternalArticulos = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(800, 600));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -65,6 +84,14 @@ public class Amancay extends javax.swing.JFrame {
         });
         menuPadron.add(menuInternalTalles);
 
+        menuInternalArticulos.setText("Artículos");
+        menuInternalArticulos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuInternalArticulosActionPerformed(evt);
+            }
+        });
+        menuPadron.add(menuInternalArticulos);
+
         menuPrincipal.add(menuPadron);
 
         setJMenuBar(menuPrincipal);
@@ -73,11 +100,11 @@ public class Amancay extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktop, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE)
+            .addComponent(desktop, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktop, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
+            .addComponent(desktop, javax.swing.GroupLayout.DEFAULT_SIZE, 579, Short.MAX_VALUE)
         );
 
         pack();
@@ -156,6 +183,29 @@ public class Amancay extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_menuInternalTallesActionPerformed
 
+    private void menuInternalArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuInternalArticulosActionPerformed
+        InternalArticulos articulos = null;
+        JInternalFrame[] frames = desktop.getAllFrames();
+        for (int i = 0; i < frames.length; i++) {
+            JInternalFrame frame = frames[i];
+            if (frame instanceof InternalArticulos) {
+                articulos = (InternalArticulos) frame;
+                desktop.setSelectedFrame(articulos);
+                break;
+            }
+        }
+        if (articulos == null) {
+            try {
+                articulos = new InternalArticulos();
+                desktop.add(articulos);
+                articulos.setVisible(true);
+                articulos.setMaximum(true);
+            } catch (PropertyVetoException ex) {
+                Logger.log(Level.WARNING, ex);
+            }
+        }
+    }//GEN-LAST:event_menuInternalArticulosActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -181,17 +231,31 @@ public class Amancay extends javax.swing.JFrame {
          }*/
         //</editor-fold>
 
+        /**
+         * Para un manejo de exepciones total
+         */
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler());
+        System.setProperty("sun.awt.exception.handler",
+                ExceptionHandler.class.getName());
+
+        javax.swing.UIManager.put("ComboBox.disabledForeground", new java.awt.Color(51, 51, 51));
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                Amancay amancay = new Amancay();
-                amancay.setLocationRelativeTo(null);
-                amancay.setVisible(true);
+                try {
+                    Amancay amancay = new Amancay();
+                    amancay.setLocationRelativeTo(null);
+                    amancay.setVisible(true);
+                } catch (Exception ex) {
+                    Msg.msgException(db.Session.getApp(), ex);
+                }
             }
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane desktop;
+    private javax.swing.JMenuItem menuInternalArticulos;
     private javax.swing.JMenuItem menuInternalFamilias;
     private javax.swing.JMenuItem menuInternalMarcas;
     private javax.swing.JMenuItem menuInternalTalles;

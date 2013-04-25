@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import registros.MarcaReg;
+import registros.padron.MarcaReg;
 
 /**
  *
@@ -252,8 +252,7 @@ public class PnlMarcas extends javax.swing.JPanel {
                 utils.Msg.msgWarning(this, ex.getMessage(), "Consistencia");
                 ex.getError().requestFocus();
             } catch (SQLException ex) {
-                Logger.log(Level.WARNING, ex);
-                utils.Msg.msgError(this, "No se pudieron guardar los datos.");
+                utils.Msg.msgException(this, ex, "No se pudieron guardar los datos.");
             }
         }
     }//GEN-LAST:event_btnNuevoActionPerformed
@@ -275,8 +274,7 @@ public class PnlMarcas extends javax.swing.JPanel {
                 utils.Msg.msgWarning(this, ex.getMessage(), "Consistencia");
                 ex.getError().requestFocus();
             } catch (SQLException ex) {
-                Logger.log(Level.SEVERE, ex);
-                utils.Msg.msgError(this, "No se pudieron guardar los datos.");
+                utils.Msg.msgException(this, ex, "No se pudieron guardar los datos.");
             }
         }
     }//GEN-LAST:event_btnEditarActionPerformed
@@ -314,14 +312,12 @@ public class PnlMarcas extends javax.swing.JPanel {
         if (marcaSelected == null) {
             utils.Msg.msgWarning(this, "Seleccione una marca a editar.");
         } else {
-            boolean op = utils.Msg.msgQuestion(this, "Dar de baja la marca '" + marcaSelected.getDescripcion() + "'?");
-            if (op) {
+            if (utils.Msg.msgQuestion(this, "Dar de baja la marca '" + marcaSelected.getDescripcion() + "'?")) {
                 try {
                     marcaSelected.drop();
                     _inicializar();
                 } catch (SQLException ex) {
-                    Logger.log(Level.SEVERE, ex);
-                    utils.Msg.msgError(this, "No se pudo dar de baja la familia.");
+                    utils.Msg.msgException(this, ex, "No se pudo dar de baja la marca.");
                 }
             }
         }

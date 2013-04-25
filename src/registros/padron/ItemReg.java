@@ -1,4 +1,4 @@
-package registros;
+package registros.padron;
 
 import java.sql.SQLException;
 
@@ -10,9 +10,9 @@ public abstract class ItemReg {
 
     public static final short ACTIVA = 0;
     public static final short BAJA = 1;
-    private String descripcion;
-    private long id;
-    private short estado_id;
+    protected String descripcion;
+    protected long id;
+    protected short estado_id;
 
     public String getDescripcion() {
         return descripcion == null ? "" : descripcion;

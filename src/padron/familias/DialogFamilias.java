@@ -21,7 +21,19 @@ public class DialogFamilias extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pnlBotones = new javax.swing.JPanel();
+        btnAceptar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        btnAceptar.setText("Aceptar");
+        pnlBotones.add(btnAceptar);
+
+        btnCancelar.setText("Cancelar");
+        pnlBotones.add(btnCancelar);
+
+        getContentPane().add(pnlBotones, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -30,8 +42,9 @@ public class DialogFamilias extends javax.swing.JDialog {
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
-                DialogFamilias dialog = new DialogFamilias(new javax.swing.JFrame(), true, true);
+                DialogFamilias dialog = new DialogFamilias(new javax.swing.JFrame(), true, false);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -43,5 +56,8 @@ public class DialogFamilias extends javax.swing.JDialog {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAceptar;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JPanel pnlBotones;
     // End of variables declaration//GEN-END:variables
 }

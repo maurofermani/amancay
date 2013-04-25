@@ -1,7 +1,7 @@
 package padron.familias;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import registros.ItemReg;
+import registros.padron.ItemReg;
 
 /**
  *

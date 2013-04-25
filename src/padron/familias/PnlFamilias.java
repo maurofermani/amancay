@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.Level;
 import javax.swing.tree.TreePath;
-import registros.FamiliaReg;
-import registros.ItemReg;
+import registros.padron.FamiliaReg;
+import registros.padron.ItemReg;
 
 /**
  *
@@ -16,10 +16,17 @@ import registros.ItemReg;
  */
 public class PnlFamilias extends javax.swing.JPanel {
 
+    private static PnlFamilias pnlFamilias;
+
     public PnlFamilias(boolean modificar) {
         initComponents();
-        tbr.setVisible(modificar);
+        btnEditar.setVisible(modificar);
+        btnEliminar.setVisible(modificar);
+        btnNuevo.setVisible(modificar);
         _inicializar();
+        if (!modificar) {
+            header.setVisible(false);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -32,10 +39,11 @@ public class PnlFamilias extends javax.swing.JPanel {
         scroll = new javax.swing.JScrollPane();
         treePadron = new org.jdesktop.swingx.JXTree();
         tbr = new javax.swing.JToolBar();
-        btnNew = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
+        btnNuevo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
-        jXHeader1 = new org.jdesktop.swingx.JXHeader();
+        header = new org.jdesktop.swingx.JXHeader();
 
         txtIngreso.setPreferredSize(new java.awt.Dimension(70, 22));
 
@@ -75,26 +83,37 @@ public class PnlFamilias extends javax.swing.JPanel {
         tbr.setOrientation(javax.swing.SwingConstants.VERTICAL);
         tbr.setRollover(true);
 
-        btnNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/New/New_16x16.png"))); // NOI18N
-        btnNew.setToolTipText("Nueva familia");
-        btnNew.setBorderPainted(false);
-        btnNew.setFocusable(false);
-        btnNew.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnNew.setRolloverEnabled(false);
-        btnNew.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnNew.addActionListener(new java.awt.event.ActionListener() {
+        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Synchronize/Synchronize_16x16.png"))); // NOI18N
+        btnActualizar.setToolTipText("Actualizar las familias del padrón");
+        btnActualizar.setBorderPainted(false);
+        btnActualizar.setFocusable(false);
+        btnActualizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnActualizar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNewActionPerformed(evt);
+                btnActualizarActionPerformed(evt);
             }
         });
-        tbr.add(btnNew);
+        tbr.add(btnActualizar);
+
+        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/New/New_16x16.png"))); // NOI18N
+        btnNuevo.setToolTipText("Nueva familia");
+        btnNuevo.setBorderPainted(false);
+        btnNuevo.setFocusable(false);
+        btnNuevo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnNuevo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
+        tbr.add(btnNuevo);
 
         btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Edit/Edit_16x16.png"))); // NOI18N
         btnEditar.setToolTipText("Editar familia seleccionada");
         btnEditar.setBorderPainted(false);
         btnEditar.setFocusable(false);
         btnEditar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnEditar.setRolloverEnabled(false);
         btnEditar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -108,7 +127,6 @@ public class PnlFamilias extends javax.swing.JPanel {
         btnEliminar.setBorderPainted(false);
         btnEliminar.setFocusable(false);
         btnEliminar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnEliminar.setRolloverEnabled(false);
         btnEliminar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,11 +137,11 @@ public class PnlFamilias extends javax.swing.JPanel {
 
         add(tbr, java.awt.BorderLayout.LINE_END);
 
-        jXHeader1.setDescription("Familias");
-        add(jXHeader1, java.awt.BorderLayout.PAGE_START);
+        header.setDescription("Familias");
+        add(header, java.awt.BorderLayout.PAGE_START);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         TreePath path = treePadron.getSelectionPath();
         if (path == null) {
             utils.Msg.msgWarning(this, "Seleccione una familia");
@@ -140,7 +158,7 @@ public class PnlFamilias extends javax.swing.JPanel {
                         FamiliaReg familiaReg = new FamiliaReg();
                         familiaReg.setIdPadre(padre.getItem().getId());
                         familiaReg.setDescripcion(txtIngreso.getText().trim());
-                        familiaReg.insert();
+                        familiaReg.save();
                         nodo.setItem(familiaReg);
                         padre.add(nodo);
                         treePadron.expandPath(path);
@@ -152,7 +170,7 @@ public class PnlFamilias extends javax.swing.JPanel {
                 }
             }
         }
-    }//GEN-LAST:event_btnNewActionPerformed
+    }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         TreePath path = treePadron.getSelectionPath();
@@ -184,24 +202,30 @@ public class PnlFamilias extends javax.swing.JPanel {
         } else {
             Nodo nodo = (Nodo) path.getLastPathComponent();
             txtIngreso.setText(nodo.getItem().getDescripcion());
-             if (utils.Msg.msgQuestion(this, pnlIngreso)) {
-                    try {
-                        ItemReg item = nodo.getItem();
-                        item.setDescripcion(txtIngreso.getText().trim());
-                        item.save();
-                        _inicializar();
-                    } catch (SQLException ex) {
-                        Logger.log(Level.SEVERE, ex);
-                        utils.Msg.msgError(this, "Error al dar de baja la familia");
-                    }
+            if (utils.Msg.msgQuestion(this, pnlIngreso)) {
+                try {
+                    ItemReg item = nodo.getItem();
+                    item.setDescripcion(txtIngreso.getText().trim());
+                    item.save();
+                    _inicializar();
+                } catch (SQLException ex) {
+                    Logger.log(Level.SEVERE, ex);
+                    utils.Msg.msgError(this, "Error al dar de baja la familia");
                 }
+            }
         }
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        _inicializar();
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
-    private javax.swing.JButton btnNew;
-    private org.jdesktop.swingx.JXHeader jXHeader1;
+    private javax.swing.JButton btnNuevo;
+    private org.jdesktop.swingx.JXHeader header;
     private javax.swing.JLabel lblNombreFamilia;
     private javax.swing.JPanel pnlIngreso;
     private javax.swing.JScrollPane scroll;
@@ -272,6 +296,27 @@ public class PnlFamilias extends javax.swing.JPanel {
             return null;
         } else {
             return (FamiliaReg) ((Nodo) path.getLastPathComponent()).getItem();
+        }
+    }
+
+    /**
+     * Método estático que devuelve una familia
+     *
+     * @return
+     */
+    public static FamiliaReg seleccionarFamilia() {
+        if (pnlFamilias == null) {
+            pnlFamilias = new PnlFamilias(false);
+        }
+        if (utils.Msg.msgQuestion(db.Session.frameSelected(), pnlFamilias, "Seleccione una familia", utils.Msg.PLAIN_MESSAGE)) {
+            FamiliaReg familia = pnlFamilias.getSelectedFamilia();
+            if (familia == null) {
+                return null;
+            } else {
+                return familia;
+            }
+        } else {
+            return null;
         }
     }
 }

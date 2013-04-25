@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import registros.TalleReg;
+import registros.padron.TalleReg;
 
 /**
  *

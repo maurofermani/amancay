@@ -1,4 +1,4 @@
-package registros;
+package registros.padron;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,6 +10,7 @@ import java.util.Iterator;
  * @author fermani
  */
 public class TalleReg extends ItemReg {
+
 
     @Override
     public void insert() throws SQLException {
@@ -39,11 +40,21 @@ public class TalleReg extends ItemReg {
                 + "     id = " + getId() + ";";
         db.Session.getConexion().execUpdate(qry);
     }
-
+    
+    /**
+     * Devuelve un arreglos de TalleReg en estado activo
+     * @return Arreglo de talles
+     * @throws SQLException 
+     */
     public static ArrayList<TalleReg> talles() throws SQLException {
         return talles(ACTIVA);
     }
 
+    /**
+     * Devuelve un arreglos de TalleReg en estado pasado como parámetro
+     * @return Arreglo de talles
+     * @throws SQLException 
+     */
     private static ArrayList<TalleReg> talles(short estado) throws SQLException {
         String qry = ""
                 + "select "
@@ -56,6 +67,10 @@ public class TalleReg extends ItemReg {
                 + "     estado_id = " + estado + " "
                 + "order by descripcion;";
         ResultSet rs = db.Session.getConexion().execSQLSelect(qry);
+        return _llenarArray(rs);
+    }
+       
+    private static ArrayList<TalleReg> _llenarArray(ResultSet rs) throws SQLException {
         ArrayList<TalleReg> rtdo = new ArrayList<>();
         while (rs.next()) {
             TalleReg talle = new TalleReg();
@@ -68,7 +83,7 @@ public class TalleReg extends ItemReg {
         }
         return rtdo;
     }
-    
+
     /**
      * Da de baja transaccionalmente los registros
      * @param talles Registros a dar de baja
