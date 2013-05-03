@@ -71,6 +71,7 @@ public class Session {
         }
         return properties.getProperty(key);
     }
+
     public static boolean infoDevel() {
         try {
             String atrr = getPropertie("devel.info");

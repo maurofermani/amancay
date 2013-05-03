@@ -26,7 +26,7 @@ public class PnlPrecios extends javax.swing.JPanel {
         if (articulo != null) {
             try {
                 this.articulo = articulo;
-                precios = articulo.precios();
+                precios = articulo.getPrecios();
                 cambios = new ArrayList<>(precios.size());
                 for (int i = 0; i < precios.size(); i++) {
                     cambios.add(Boolean.FALSE);

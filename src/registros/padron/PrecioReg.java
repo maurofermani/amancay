@@ -32,13 +32,10 @@ public class PrecioReg extends ItemReg {
     public String getDescripcion() {
         if (super.getDescripcion().isEmpty()) {
             descripcion = "";
-            if (articuloReg != null) {
-                descripcion += articuloReg.getDescripcion();
-            }
-            descripcion += " - ";
             if (talleReg != null) {
                 descripcion += talleReg.getDescripcion();
             }
+            descripcion += "-> " + getPrecio();
         }
         return descripcion;
     }

@@ -37,6 +37,10 @@ public abstract class ItemReg {
     public void setEstado(short estado) {
         this.estado_id = estado;
     }
+    
+    public boolean isNew() {
+        return getId() == 0;
+    }
 
     /**
      * Guarda el registro en la base de datos. Si el id es 0 lo inserta, sino lo

@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.logging.Level;
 import padron.articulos.Codigo;
@@ -22,6 +23,7 @@ public class ArticuloReg extends ItemReg {
     private MarcaReg marcaReg;
     private String serialNumber;
     private Codigo codigo;
+    private ArrayList<PrecioReg> precios;
 
     public FamiliaReg getFamiliaReg() {
         return familiaReg;
@@ -37,6 +39,17 @@ public class ArticuloReg extends ItemReg {
 
     public void setMarcaReg(MarcaReg marcaReg) {
         this.marcaReg = marcaReg;
+    }
+
+    public ArrayList<PrecioReg> getPrecios() throws SQLException {
+        if (precios == null) {
+            precios = precios();
+        }
+        return precios;
+    }
+
+    public void setPrecios(ArrayList<PrecioReg> precios) {
+        this.precios = precios;
     }
 
     /**
@@ -118,6 +131,14 @@ public class ArticuloReg extends ItemReg {
                     + getCodigo().getCodigo() + ");";
             conexion.execUpdate(qry);
             setId(conexion.getSerial());
+            
+            for (Iterator<PrecioReg> it = precios.iterator(); it.hasNext();) {
+                PrecioReg precioReg = it.next();
+                if (precioReg.getTalleReg().isNew()) {
+                    precioReg.getTalleReg().save();
+                }
+                precioReg.save();
+            }
 
             conexion.endTransaction();
         } catch (GTIN13Exception ex) {
@@ -195,7 +216,7 @@ public class ArticuloReg extends ItemReg {
      * @return
      * @throws SQLException
      */
-    public ArrayList<PrecioReg> precios() throws SQLException {
+    private ArrayList<PrecioReg> precios() throws SQLException {
         String qry = ""
                 + " select "
                 + "     p.id, "
@@ -212,7 +233,7 @@ public class ArticuloReg extends ItemReg {
                 + "     and t.estado_id != " + TalleReg.BAJA + " "
                 + "     and p.articulo_id = " + getId() + ";";
         ResultSet rs = db.Session.getConexion().execSQLSelect(qry);
-        ArrayList<PrecioReg> rtdo = new ArrayList<>();
+        precios = new ArrayList<>();
         PrecioReg precioReg;
         TalleReg talleReg;
         while (rs.next()) {
@@ -228,12 +249,11 @@ public class ArticuloReg extends ItemReg {
             talleReg.setEstado(rs.getShort("est_talle"));
             precioReg.setTalleReg(talleReg);
 
-            rtdo.add(precioReg);
+            precios.add(precioReg);
         }
-        return rtdo;
+        return precios;
     }
-    
-        
+
     public ArrayList<TalleReg> tallesLibres() throws SQLException {
         String qry = ""
                 + "select "

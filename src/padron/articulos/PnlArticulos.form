@@ -38,7 +38,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout"/>
       <SubComponents>
-        <Container class="javax.swing.JPanel" name="pnlMarca">
+        <Container class="javax.swing.JPanel" name="pnlArticulo">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout$JSplitPaneConstraintsDescription">
               <JSplitPaneConstraints position="right"/>
@@ -168,7 +168,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="pnlStock" max="32767" attributes="0"/>
+                              <Component id="pnlTalles" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                       <Component id="lblDescripcion" max="32767" attributes="0"/>
@@ -225,7 +225,7 @@
                               <Component id="lblFamilia" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="pnlStock" pref="175" max="32767" attributes="0"/>
+                          <Component id="pnlTalles" pref="175" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -372,7 +372,7 @@
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="padron.articulos.PnlPrecios" name="pnlStock">
+                <Component class="padron.articulos.PnlPrecios" name="pnlTalles">
                 </Component>
               </SubComponents>
             </Container>

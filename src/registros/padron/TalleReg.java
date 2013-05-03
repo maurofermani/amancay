@@ -1,5 +1,6 @@
 package registros.padron;
 
+import ex.DuplicateException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,7 +11,6 @@ import java.util.Iterator;
  * @author fermani
  */
 public class TalleReg extends ItemReg {
-
 
     @Override
     public void insert() throws SQLException {
@@ -30,7 +30,7 @@ public class TalleReg extends ItemReg {
                 + "     id = " + getId() + ";";
         db.Session.getConexion().execUpdate(qry);
     }
-    
+
     @Override
     public void drop() throws SQLException {
         String qry = ""
@@ -40,20 +40,44 @@ public class TalleReg extends ItemReg {
                 + "     id = " + getId() + ";";
         db.Session.getConexion().execUpdate(qry);
     }
-    
+
     /**
      * Devuelve un arreglos de TalleReg en estado activo
+     *
      * @return Arreglo de talles
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static ArrayList<TalleReg> talles() throws SQLException {
         return talles(ACTIVA);
     }
 
+    public static TalleReg findDescripcion(String desc) throws DuplicateException, SQLException {
+        String qry = ""
+                + "select "
+                + "     id, "
+                + "     descripcion,"
+                + "     estado_id "
+                + "from"
+                + "     pdr_talles "
+                + "where "
+                + "     descripcion = '" + desc.trim() + "' "
+                + "order by descripcion;";
+        ResultSet rs = db.Session.getConexion().execSQLSelect(qry);
+        ArrayList<TalleReg> arr = _llenarArray(rs);
+        if (arr.isEmpty()) {
+            return null;
+        } else if (arr.size() == 1) {
+            return arr.get(0);
+        } else {
+            throw new DuplicateException("Talles duplicados para la descripción '" + desc + "'.");
+        }
+    }
+
     /**
      * Devuelve un arreglos de TalleReg en estado pasado como parámetro
+     *
      * @return Arreglo de talles
-     * @throws SQLException 
+     * @throws SQLException
      */
     private static ArrayList<TalleReg> talles(short estado) throws SQLException {
         String qry = ""
@@ -69,7 +93,7 @@ public class TalleReg extends ItemReg {
         ResultSet rs = db.Session.getConexion().execSQLSelect(qry);
         return _llenarArray(rs);
     }
-       
+
     private static ArrayList<TalleReg> _llenarArray(ResultSet rs) throws SQLException {
         ArrayList<TalleReg> rtdo = new ArrayList<>();
         while (rs.next()) {
@@ -86,10 +110,11 @@ public class TalleReg extends ItemReg {
 
     /**
      * Da de baja transaccionalmente los registros
+     *
      * @param talles Registros a dar de baja
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public static void bajas(ArrayList<TalleReg> talles) throws SQLException  {
+    public static void bajas(ArrayList<TalleReg> talles) throws SQLException {
         try {
             db.Session.getConexion().initTransaction();
             for (Iterator<TalleReg> it = talles.iterator(); it.hasNext();) {
