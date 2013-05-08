@@ -1,0 +1,54 @@
+<project name="prueba" default="rebuild" basedir="../">
+
+	<property name="home" location="/home/mfermani/amancay" />
+    <property name="version" location="0.1"/>
+    <property name="src" location="${home}/src"/>
+    <property name="build" location="${home}/build"/>
+    <property name="dist" location="${home}/dist"/>
+    <property name="lib" location="${home}/lib"/>
+    <property name="jarfilename" location="${dist}/amancay.jar"/>
+
+    <path id="main.classpath">
+       <pathelement path="${classpath}"/>
+       <fileset dir="${lib}">
+          <include name="*.jar"/>
+       </fileset>
+       <pathelement path="${build}"/>
+    </path>
+
+    <target name="dist" depends="build">
+       <jar destfile="${jarfilename}" basedir="${build}">
+	   	   <zipgroupfileset dir="${lib}" includes="**/*.jar"/>
+           <manifest>
+              <attribute name="Company" value="Cooperativa Obrera Ltda."/>
+              <attribute name="Author" value="mfermani@cooperativaobrera.com.ar"/>
+			  <attribute name="Main-Class" value="amancay.Amancay" />
+          <attribute name="Version" value="${version}"/>
+           </manifest>
+       </jar>
+    </target>
+
+    <target name="build">
+       <mkdir dir="${build}"/>
+       <mkdir dir="${dist}"/>
+       <copy todir="${build}">
+            <fileset dir="${src}">
+            <exclude name="**/*.java"/>
+            <exclude name="**/*.form"/>
+            <exclude name="**/*.bak"/>
+            </fileset>
+       </copy>
+       <javac debug="true" srcdir="${src}" destdir="${build}" encoding="UTF-8">
+            <classpath refid="main.classpath"/>
+       </javac>
+    </target>
+
+    <target name="clean">
+        <delete dir="${build}"/>
+        <delete dir="${dist}"/>
+    </target>
+
+    <target name="rebuild" depends="clean,dist"/>
+
+</project>
+
