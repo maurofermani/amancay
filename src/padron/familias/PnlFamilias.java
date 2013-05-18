@@ -83,7 +83,7 @@ public class PnlFamilias extends javax.swing.JPanel {
         tbr.setOrientation(javax.swing.SwingConstants.VERTICAL);
         tbr.setRollover(true);
 
-        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Synchronize/Synchronize_16x16.png"))); // NOI18N
+        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gnome/22x22/actions/reload.png"))); // NOI18N
         btnActualizar.setToolTipText("Actualizar las familias del padrón");
         btnActualizar.setBorderPainted(false);
         btnActualizar.setFocusable(false);
@@ -96,7 +96,7 @@ public class PnlFamilias extends javax.swing.JPanel {
         });
         tbr.add(btnActualizar);
 
-        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/New/New_16x16.png"))); // NOI18N
+        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gnome/22x22/actions/gtk-new.png"))); // NOI18N
         btnNuevo.setToolTipText("Nueva familia");
         btnNuevo.setBorderPainted(false);
         btnNuevo.setFocusable(false);
@@ -109,7 +109,7 @@ public class PnlFamilias extends javax.swing.JPanel {
         });
         tbr.add(btnNuevo);
 
-        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Edit/Edit_16x16.png"))); // NOI18N
+        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gnome/22x22/actions/gtk-edit.png"))); // NOI18N
         btnEditar.setToolTipText("Editar familia seleccionada");
         btnEditar.setBorderPainted(false);
         btnEditar.setFocusable(false);
@@ -122,7 +122,7 @@ public class PnlFamilias extends javax.swing.JPanel {
         });
         tbr.add(btnEditar);
 
-        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Remove/Remove_16x16.png"))); // NOI18N
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gnome/22x22/actions/edit-delete.png"))); // NOI18N
         btnEliminar.setToolTipText("Eliminar familia seleccionada");
         btnEliminar.setBorderPainted(false);
         btnEliminar.setFocusable(false);

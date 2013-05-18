@@ -59,7 +59,6 @@ public class Amancay extends javax.swing.JFrame {
 
         menuPadron.setText("Padrón");
 
-        menuInternalFamilias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/HardDisk/HardDisk_16x16.png"))); // NOI18N
         menuInternalFamilias.setText("Familias");
         menuInternalFamilias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

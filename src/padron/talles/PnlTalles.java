@@ -99,7 +99,7 @@ public class PnlTalles extends javax.swing.JPanel {
         tbrBotones.setOrientation(javax.swing.SwingConstants.VERTICAL);
         tbrBotones.setRollover(true);
 
-        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/New/New_16x16.png"))); // NOI18N
+        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gnome/22x22/actions/filenew.png"))); // NOI18N
         btnNuevo.setBorderPainted(false);
         btnNuevo.setFocusable(false);
         btnNuevo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -111,7 +111,7 @@ public class PnlTalles extends javax.swing.JPanel {
         });
         tbrBotones.add(btnNuevo);
 
-        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Edit/Edit_16x16.png"))); // NOI18N
+        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gnome/22x22/actions/gtk-edit.png"))); // NOI18N
         btnEditar.setToolTipText("Editar registro seleccionado");
         btnEditar.setBorderPainted(false);
         btnEditar.setFocusable(false);
@@ -124,7 +124,7 @@ public class PnlTalles extends javax.swing.JPanel {
         });
         tbrBotones.add(btnEditar);
 
-        btnBaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Delete/Delete_16x16.png"))); // NOI18N
+        btnBaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gnome/22x22/actions/edit-delete.png"))); // NOI18N
         btnBaja.setToolTipText("Dar de bajas los registros seleccionados");
         btnBaja.setBorderPainted(false);
         btnBaja.setFocusable(false);

@@ -32,7 +32,7 @@ public class PnlExceptions extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(520, 400));
         setLayout(new java.awt.BorderLayout());
 
-        lblMensaje.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Error/Error_64x64.png"))); // NOI18N
+        lblMensaje.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gnome/32x32/status/dialog-error.png"))); // NOI18N
         lblMensaje.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         lblMensaje.setIconTextGap(20);
         tab.addTab("Mensaje", lblMensaje);

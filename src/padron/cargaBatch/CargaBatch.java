@@ -132,7 +132,7 @@ public class CargaBatch extends InternalFrame {
         txtFile.setEditable(false);
         txtFile.setPreferredSize(new java.awt.Dimension(300, 25));
 
-        btnFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Search/Search_16x16.png"))); // NOI18N
+        btnFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gnome/16x16/actions/stock_search.png"))); // NOI18N
         btnFile.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -156,7 +156,7 @@ public class CargaBatch extends InternalFrame {
                 .addComponent(txtFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnFile)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 180, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)
                 .addComponent(btnProcesar)
                 .addContainerGap())
         );

@@ -100,14 +100,15 @@ public class PnlArticulos extends javax.swing.JPanel {
 
         tbrBotones.setFloatable(false);
         tbrBotones.setRollover(true);
+        tbrBotones.setPreferredSize(new java.awt.Dimension(244, 65));
 
-        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/New/New_24x24.png"))); // NOI18N
+        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gnome/32x32/actions/bookmark-new.png"))); // NOI18N
         btnNuevo.setText("Nuevo");
         btnNuevo.setFocusable(false);
         btnNuevo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnNuevo.setMaximumSize(new java.awt.Dimension(75, 56));
-        btnNuevo.setMinimumSize(new java.awt.Dimension(56, 56));
-        btnNuevo.setPreferredSize(new java.awt.Dimension(60, 56));
+        btnNuevo.setMaximumSize(new java.awt.Dimension(75, 75));
+        btnNuevo.setMinimumSize(new java.awt.Dimension(65, 65));
+        btnNuevo.setPreferredSize(new java.awt.Dimension(65, 65));
         btnNuevo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -116,13 +117,13 @@ public class PnlArticulos extends javax.swing.JPanel {
         });
         tbrBotones.add(btnNuevo);
 
-        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Edit/Edit_24x24.png"))); // NOI18N
+        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gnome/32x32/apps/accessories-text-editor.png"))); // NOI18N
         btnEditar.setText("Editar");
         btnEditar.setFocusable(false);
         btnEditar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnEditar.setMaximumSize(new java.awt.Dimension(75, 56));
-        btnEditar.setMinimumSize(new java.awt.Dimension(56, 56));
-        btnEditar.setPreferredSize(new java.awt.Dimension(60, 56));
+        btnEditar.setMaximumSize(new java.awt.Dimension(75, 75));
+        btnEditar.setMinimumSize(new java.awt.Dimension(65, 65));
+        btnEditar.setPreferredSize(new java.awt.Dimension(65, 65));
         btnEditar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -131,13 +132,13 @@ public class PnlArticulos extends javax.swing.JPanel {
         });
         tbrBotones.add(btnEditar);
 
-        btnBaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Delete/Delete_24x24.png"))); // NOI18N
+        btnBaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gnome/32x32/actions/edit-delete.png"))); // NOI18N
         btnBaja.setText("Baja");
         btnBaja.setFocusable(false);
         btnBaja.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnBaja.setMaximumSize(new java.awt.Dimension(75, 56));
-        btnBaja.setMinimumSize(new java.awt.Dimension(56, 56));
-        btnBaja.setPreferredSize(new java.awt.Dimension(60, 56));
+        btnBaja.setMaximumSize(new java.awt.Dimension(75, 75));
+        btnBaja.setMinimumSize(new java.awt.Dimension(65, 65));
+        btnBaja.setPreferredSize(new java.awt.Dimension(65, 65));
         btnBaja.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnBaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,14 +147,14 @@ public class PnlArticulos extends javax.swing.JPanel {
         });
         tbrBotones.add(btnBaja);
 
-        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Cancel/Cancel_24x24.png"))); // NOI18N
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gnome/32x32/actions/gtk-cancel.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.setEnabled(false);
         btnCancelar.setFocusable(false);
         btnCancelar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnCancelar.setMaximumSize(new java.awt.Dimension(75, 56));
-        btnCancelar.setMinimumSize(new java.awt.Dimension(56, 56));
-        btnCancelar.setPreferredSize(new java.awt.Dimension(60, 56));
+        btnCancelar.setMaximumSize(new java.awt.Dimension(75, 75));
+        btnCancelar.setMinimumSize(new java.awt.Dimension(65, 65));
+        btnCancelar.setPreferredSize(new java.awt.Dimension(65, 65));
         btnCancelar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -260,7 +261,7 @@ public class PnlArticulos extends javax.swing.JPanel {
                     .addComponent(txtFamilia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblFamilia))
                 .addGap(18, 18, 18)
-                .addComponent(pnlTalles, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                .addComponent(pnlTalles, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -478,9 +479,9 @@ public class PnlArticulos extends javax.swing.JPanel {
                 tblArticulos.setEnabled(true);
                 btnFiltroFamilia.setEnabled(true);
                 btnCancelar.setEnabled(false);
-                btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/New/New_24x24.png")));
+                btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gnome/32x32/actions/bookmark-new.png")));
                 btnNuevo.setText("Nuevo");
-                btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Edit/Edit_24x24.png")));
+                btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gnome/32x32/apps/accessories-text-editor.png")));
                 btnEditar.setText("Editar");
                 lblInfoBarra.setText("Modo selección.");
                 break;
@@ -505,7 +506,7 @@ public class PnlArticulos extends javax.swing.JPanel {
                 btnBaja.setEnabled(false);
                 btnEditar.setEnabled(false);
                 btnNuevo.setEnabled(true);
-                btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Save/Save_24x24.png")));
+                btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gnome/32x32/apps/accessories-text-editor.png")));
                 btnNuevo.setText("Cuardar");
                 tblArticulos.setEnabled(false);
                 btnFiltroFamilia.setEnabled(false);
@@ -520,7 +521,7 @@ public class PnlArticulos extends javax.swing.JPanel {
                 btnBaja.setEnabled(false);
                 btnEditar.setEnabled(true);
                 btnNuevo.setEnabled(false);
-                btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Save/Save_24x24.png")));
+                btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gnome/32x32/actions/document-save.png")));
                 btnEditar.setText("Cuardar");
                 tblArticulos.setEnabled(false);
                 btnFiltroFamilia.setEnabled(false);

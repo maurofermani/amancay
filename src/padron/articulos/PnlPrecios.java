@@ -111,7 +111,7 @@ public class PnlPrecios extends javax.swing.JPanel {
         tbr.setOrientation(javax.swing.SwingConstants.VERTICAL);
         tbr.setRollover(true);
 
-        btnNuevoTalle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/New/New_16x16.png"))); // NOI18N
+        btnNuevoTalle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gnome/22x22/actions/filenew.png"))); // NOI18N
         btnNuevoTalle.setToolTipText("Nueva familia");
         btnNuevoTalle.setBorderPainted(false);
         btnNuevoTalle.setFocusable(false);
@@ -124,7 +124,7 @@ public class PnlPrecios extends javax.swing.JPanel {
         });
         tbr.add(btnNuevoTalle);
 
-        btnBajaTalle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Remove/Remove_16x16.png"))); // NOI18N
+        btnBajaTalle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gnome/22x22/actions/editdelete.png"))); // NOI18N
         btnBajaTalle.setToolTipText("Eliminar familia seleccionada");
         btnBajaTalle.setBorderPainted(false);
         btnBajaTalle.setFocusable(false);
