@@ -40,14 +40,14 @@ public class CargaArticulosTableModel extends GenericTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        if (columnIndex == 0) {
-            return true;
-        } else if (columnIndex == 3 && articulos.get(rowIndex).getArrDescripcion().size() != 1) {
+        if (columnIndex == 3) {
             cboDescripcion.setModel(new DefaultComboBoxModel(articulos.get(rowIndex).getArrDescripcion().toArray()));
-            cboDescripcion.setSelectedItem(articulos.get(rowIndex).getDescripcion().replaceAll("^\\* ", ""));
+            cboDescripcion.setSelectedItem(articulos.get(rowIndex).getDescripcion().replaceAll("^ \\* ", ""));
             return true;
-        } else {
+        } else if (columnIndex == 2 || columnIndex == 4 || columnIndex == 5) {
             return false;
+        } else {
+            return true;
         }
     }
 
@@ -115,8 +115,10 @@ public class CargaArticulosTableModel extends GenericTableModel {
             case 0:
                 art.setMarcaReg((MarcaReg) aValue);
                 break;
+            case 1:
+                art.setSerialNumber((String) aValue);
             case 3:
-                art.setDescripcion((String) aValue);
+                art.setDescripcion(((String) aValue).replaceAll("^ \\* ", "").toUpperCase());
                 break;
         }
     }

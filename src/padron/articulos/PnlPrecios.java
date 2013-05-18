@@ -3,6 +3,8 @@ package padron.articulos;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import registros.padron.ArticuloReg;
 import registros.padron.PrecioReg;
@@ -31,14 +33,14 @@ public class PnlPrecios extends javax.swing.JPanel {
                 for (int i = 0; i < precios.size(); i++) {
                     cambios.add(Boolean.FALSE);
                 }
-                tblStock.setModel(new PreciosTableModel(precios, cambios));
-                tblStock.packAll();
+                tblPrecios.setModel(new PreciosTableModel(precios, cambios));
+                tblPrecios.packAll();
             } catch (SQLException ex) {
                 utils.Msg.msgException(this, ex);
             }
         } else {
-            tblStock.setModel(new PreciosTableModel(new ArrayList<PrecioReg>(), new ArrayList<Boolean>()));
-            tblStock.packAll();
+            tblPrecios.setModel(new PreciosTableModel(new ArrayList<PrecioReg>(), new ArrayList<Boolean>()));
+            tblPrecios.packAll();
         }
     }
 
@@ -51,11 +53,11 @@ public class PnlPrecios extends javax.swing.JPanel {
         cboTalles = new javax.swing.JComboBox();
         lblPrecio = new javax.swing.JLabel();
         spnPrecio = new javax.swing.JSpinner();
-        scrollStock = new javax.swing.JScrollPane();
-        tblStock = new org.jdesktop.swingx.JXTable();
+        scrollPrecios = new javax.swing.JScrollPane();
+        tblPrecios = new org.jdesktop.swingx.JXTable();
         tbr = new javax.swing.JToolBar();
-        btnNuevoTalle = new javax.swing.JButton();
-        btnBajaTalle = new javax.swing.JButton();
+        btnNuevoPrecio = new javax.swing.JButton();
+        btnBajaPrecio = new javax.swing.JButton();
 
         lblTalle.setText("Talle");
         lblTalle.setPreferredSize(new java.awt.Dimension(60, 25));
@@ -93,9 +95,9 @@ public class PnlPrecios extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
-        scrollStock.setBorder(javax.swing.BorderFactory.createTitledBorder("Talles"));
+        scrollPrecios.setBorder(javax.swing.BorderFactory.createTitledBorder("Talles"));
 
-        tblStock.setModel(new javax.swing.table.DefaultTableModel(
+        tblPrecios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -103,44 +105,44 @@ public class PnlPrecios extends javax.swing.JPanel {
 
             }
         ));
-        scrollStock.setViewportView(tblStock);
+        scrollPrecios.setViewportView(tblPrecios);
 
-        add(scrollStock, java.awt.BorderLayout.CENTER);
+        add(scrollPrecios, java.awt.BorderLayout.CENTER);
 
         tbr.setFloatable(false);
         tbr.setOrientation(javax.swing.SwingConstants.VERTICAL);
         tbr.setRollover(true);
 
-        btnNuevoTalle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gnome/22x22/actions/filenew.png"))); // NOI18N
-        btnNuevoTalle.setToolTipText("Nueva familia");
-        btnNuevoTalle.setBorderPainted(false);
-        btnNuevoTalle.setFocusable(false);
-        btnNuevoTalle.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnNuevoTalle.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnNuevoTalle.addActionListener(new java.awt.event.ActionListener() {
+        btnNuevoPrecio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gnome/22x22/actions/filenew.png"))); // NOI18N
+        btnNuevoPrecio.setToolTipText("Nueva familia");
+        btnNuevoPrecio.setBorderPainted(false);
+        btnNuevoPrecio.setFocusable(false);
+        btnNuevoPrecio.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnNuevoPrecio.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnNuevoPrecio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNuevoTalleActionPerformed(evt);
+                btnNuevoPrecioActionPerformed(evt);
             }
         });
-        tbr.add(btnNuevoTalle);
+        tbr.add(btnNuevoPrecio);
 
-        btnBajaTalle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gnome/22x22/actions/editdelete.png"))); // NOI18N
-        btnBajaTalle.setToolTipText("Eliminar familia seleccionada");
-        btnBajaTalle.setBorderPainted(false);
-        btnBajaTalle.setFocusable(false);
-        btnBajaTalle.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnBajaTalle.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnBajaTalle.addActionListener(new java.awt.event.ActionListener() {
+        btnBajaPrecio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gnome/22x22/actions/editdelete.png"))); // NOI18N
+        btnBajaPrecio.setToolTipText("Eliminar familia seleccionada");
+        btnBajaPrecio.setBorderPainted(false);
+        btnBajaPrecio.setFocusable(false);
+        btnBajaPrecio.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnBajaPrecio.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnBajaPrecio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBajaTalleActionPerformed(evt);
+                btnBajaPrecioActionPerformed(evt);
             }
         });
-        tbr.add(btnBajaTalle);
+        tbr.add(btnBajaPrecio);
 
         add(tbr, java.awt.BorderLayout.LINE_END);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnNuevoTalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoTalleActionPerformed
+    private void btnNuevoPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoPrecioActionPerformed
         if (articulo == null) {
             utils.Msg.msgWarning(this, "Seleccione un artículo");
         } else {
@@ -153,42 +155,60 @@ public class PnlPrecios extends javax.swing.JPanel {
                     precioReg.setTalleReg(talleReg);
                     precioReg.setPrecio((Double) spnPrecio.getValue());
                     precios.add(precioReg);
-                    ((PreciosTableModel) tblStock.getModel()).fireTableDataChanged();
+                    ((PreciosTableModel) tblPrecios.getModel()).fireTableDataChanged();
                     cambios.add(Boolean.TRUE);
-                    tblStock.packAll();
+                    tblPrecios.packAll();
                 }
             } catch (SQLException ex) {
                 utils.Msg.msgException(this, ex);
             }
         }
-    }//GEN-LAST:event_btnNuevoTalleActionPerformed
+    }//GEN-LAST:event_btnNuevoPrecioActionPerformed
 
-    private void btnBajaTalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBajaTalleActionPerformed
+    private void btnBajaPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBajaPrecioActionPerformed
         if (articulo == null) {
             utils.Msg.msgWarning(this, "Seleccione un artículo");
         } else {
-            //dar de baja un talle seleccionado
+            int row = tblPrecios.getSelectedRow();
+            if (row != -1 && tblPrecios.convertRowIndexToModel(row) != -1) {
+                row = tblPrecios.convertRowIndexToModel(row);
+                //dar de baja un precio seleccionado
+                PreciosTableModel model = (PreciosTableModel) tblPrecios.getModel();
+                PrecioReg precio = model.getRow(row);
+                if (!precio.isNew()) {
+                    try {
+                        precio.drop();
+                        precios.remove(precio);
+                    } catch (SQLException ex) {
+                        utils.Msg.msgException(this, ex);
+                    }
+                } else {
+                    precios.remove(precio);
+                }
+            } else {
+                utils.Msg.msgWarning(this, "Seleccione un precio a borrar");
+            }
         }
-    }//GEN-LAST:event_btnBajaTalleActionPerformed
+    }//GEN-LAST:event_btnBajaPrecioActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBajaTalle;
-    private javax.swing.JButton btnNuevoTalle;
+    private javax.swing.JButton btnBajaPrecio;
+    private javax.swing.JButton btnNuevoPrecio;
     private javax.swing.JComboBox cboTalles;
     private javax.swing.JLabel lblPrecio;
     private javax.swing.JLabel lblTalle;
     private javax.swing.JPanel pnlIngreso;
-    private javax.swing.JScrollPane scrollStock;
+    private javax.swing.JScrollPane scrollPrecios;
     private javax.swing.JSpinner spnPrecio;
-    private org.jdesktop.swingx.JXTable tblStock;
+    private org.jdesktop.swingx.JXTable tblPrecios;
     private javax.swing.JToolBar tbr;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
-        btnBajaTalle.setEnabled(enabled);
-        btnNuevoTalle.setEnabled(enabled);
-        tblStock.setEditable(enabled);
+        btnBajaPrecio.setEnabled(enabled);
+        btnNuevoPrecio.setEnabled(enabled);
+        tblPrecios.setEditable(enabled);
     }
 
     public void guardar() throws SQLException {
@@ -196,8 +216,8 @@ public class PnlPrecios extends javax.swing.JPanel {
         for (Iterator<Boolean> it = cambios.iterator(); it.hasNext();) {
             if (it.next()) {
                 precios.get(i).save();
-                i++;
             }
+            i++;
         }
     }
 }

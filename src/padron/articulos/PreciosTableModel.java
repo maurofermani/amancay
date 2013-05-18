@@ -38,9 +38,13 @@ public class PreciosTableModel extends GenericTableModel {
         return datos.size();
     }
 
-    void addRow(PrecioReg precioReg) {
+    public void addRow(PrecioReg precioReg) {
         datos.add(precioReg);
         fireTableDataChanged();
+    }
+
+    public PrecioReg getRow(int row) {
+        return datos.get(row);
     }
 
     @Override

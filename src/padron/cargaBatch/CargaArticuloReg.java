@@ -1,5 +1,6 @@
 package padron.cargaBatch;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import registros.padron.ArticuloReg;
 
@@ -10,7 +11,13 @@ import registros.padron.ArticuloReg;
 public class CargaArticuloReg extends ArticuloReg {
 
     private ArrayList<String> arrDesc = new ArrayList<>();
+    private boolean guardar = false;
 
+    @Override
+    public void save() throws SQLException {
+        guardar = true;
+        super.save();
+    }
     @Override
     public void setDescripcion(String descripcion) {
         super.setDescripcion(descripcion);
@@ -21,7 +28,9 @@ public class CargaArticuloReg extends ArticuloReg {
 
     @Override
     public String getDescripcion() {
-        if (arrDesc.size() != 1) {
+        if (guardar) {
+            return super.getDescripcion();
+        } else if (arrDesc.size() != 1) {
             return "* " + super.getDescripcion();
         } else {
             return "  " + super.getDescripcion();

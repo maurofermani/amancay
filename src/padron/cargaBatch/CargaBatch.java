@@ -5,6 +5,7 @@ import ex.DuplicateException;
 import ex.Logger;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
@@ -18,6 +19,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.Level;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import org.jdesktop.swingx.JXComboBox;
@@ -75,23 +77,47 @@ public class CargaBatch extends InternalFrame {
                         if (rowIndex != -1) {
                             int row = tblArticulos.convertRowIndexToModel(rowIndex);
                             int column = tblArticulos.columnAtPoint(e.getPoint());
+                            CargaArticuloReg ca = ((CargaArticulosTableModel) tblArticulos.getModel()).getRow(row);
                             if (column == 5) {
-                                CargaArticuloReg ca = ((CargaArticulosTableModel) tblArticulos.getModel()).getRow(row);
                                 _seleccionarFamilia(ca);
+                            } else if (column == 4) {
+                                pnlPrecios.setArticulo(ca);
+                                utils.Msg.msgDialog(pnlPrecios);
+                                ((CargaArticulosTableModel) tblArticulos.getModel()).fireTableRowsUpdated(row, row);
+                                tblArticulos.packAll();
                             }
                         }
                     }
                 }
             });
             JXComboBox cboDescripcion = new JXComboBox();
+            cboDescripcion.setEditable(true);
             tblArticulos.setModel(new CargaArticulosTableModel(cboDescripcion));
             marcas = MarcaReg.marcas();
             JXComboBox cboMarcas = new JXComboBox(new DefaultComboBoxModel(marcas.toArray()));
             tblArticulos.setDefaultEditor(MarcaReg.class, new ComboBoxCellEditor(cboMarcas));
-            tblArticulos.getColumnExt("Descripcion").setCellEditor(new ComboBoxCellEditor(cboDescripcion));
+            tblArticulos.getColumnExt("Descripcion").setCellEditor(new ComboBoxCellEditor(cboDescripcion) {
+
+                @Override
+                public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+                    return super.getTableCellEditorComponent(table, value.toString().replaceAll("^\\* ", "").replaceAll("  ", ""), isSelected, row, column);
+                }
+                
+            });
             tblArticulos.setDefaultEditor(FamiliaReg.class, new FamiliaCellEditor());
             scroll.setViewportView(tblArticulos);
             tblArticulos.packAll();
+            tblArticulos.setHorizontalScrollEnabled(true);
+            lblInfoBarra.setToolTipText("Clic para ver los errores");
+                lblInfoBarra.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                lblInfoBarra.addMouseListener(new MouseAdapter() {
+
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        txtLog.setText(sLog);
+                        utils.Msg.msgPlain(scroll, scrollLog, "Detalles de la carga");
+                    }
+                });
         } catch (SQLException ex) {
             Logger.log(Level.SEVERE, ex);
         }
@@ -101,6 +127,9 @@ public class CargaBatch extends InternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        scrollLog = new javax.swing.JScrollPane();
+        txtLog = new javax.swing.JTextPane();
+        pnlPrecios = new padron.articulos.PnlPrecios();
         hdrTituto = new org.jdesktop.swingx.JXHeader();
         tbrEstado = new javax.swing.JToolBar();
         lblInfoBarra = new javax.swing.JLabel();
@@ -111,6 +140,17 @@ public class CargaBatch extends InternalFrame {
         btnProcesar = new javax.swing.JButton();
         scroll = new javax.swing.JScrollPane();
         tblArticulos = new org.jdesktop.swingx.JXTable();
+
+        scrollLog.setMaximumSize(new java.awt.Dimension(500, 400));
+        scrollLog.setMinimumSize(new java.awt.Dimension(500, 400));
+        scrollLog.setPreferredSize(new java.awt.Dimension(500, 400));
+
+        txtLog.setEditable(false);
+        scrollLog.setViewportView(txtLog);
+
+        pnlPrecios.setMaximumSize(new java.awt.Dimension(350, 260));
+        pnlPrecios.setMinimumSize(new java.awt.Dimension(350, 260));
+        pnlPrecios.setPreferredSize(new java.awt.Dimension(350, 260));
 
         hdrTituto.setDescription("Carga de árticulos");
         getContentPane().add(hdrTituto, java.awt.BorderLayout.PAGE_START);
@@ -220,8 +260,9 @@ public class CargaBatch extends InternalFrame {
                 }
             }
             ((CargaArticulosTableModel) tblArticulos.getModel()).setArticulos(articulos);
-            lblInfoBarra.setText("<html><font color='green'>Cantidad de artículos: " + tblArticulos.getRowCount() + "</font></html>");
             tblArticulos.packAll();
+            lblInfoBarra.setText("<html><font color='green'>Líneas procesadas: " + iRow 
+                    + " - Articulos cargados: " + tblArticulos.getRowCount() + "</font></html>");
         }
     }//GEN-LAST:event_btnFileActionPerformed
 
@@ -245,16 +286,19 @@ public class CargaBatch extends InternalFrame {
     private javax.swing.JLabel lblInfoBarra;
     private javax.swing.JPanel pnlCarga;
     private javax.swing.JPanel pnlCentral;
+    private padron.articulos.PnlPrecios pnlPrecios;
     private javax.swing.JScrollPane scroll;
+    private javax.swing.JScrollPane scrollLog;
     private org.jdesktop.swingx.JXTable tblArticulos;
     private javax.swing.JToolBar tbrEstado;
     private javax.swing.JTextField txtFile;
+    private javax.swing.JTextPane txtLog;
     // End of variables declaration//GEN-END:variables
 
     private void _procesarLinea(String linea) {
         String[] split = linea.split("\\|");
         if (split.length != 5) {
-            sLog += "[" + iRow + " Error] Cantidad de parámetros.";
+            sLog += "[" + iRow + " Error] Cantidad de parámetros.\n";
         } else {
             String alias = split[0];
             String nroSerie = split[1];
@@ -282,7 +326,7 @@ public class CargaBatch extends InternalFrame {
             try {
                 talleReg = TalleReg.findDescripcion(talle);
                 if (talleReg == null) {
-                    sLog += "[" + iRow + " Advertencia] Nuevo talle " + talle;
+                    sLog += "[" + iRow + " Advertencia] Nuevo talle " + talle + ".\n";
                     talleReg = new TalleReg();
                     talleReg.setDescripcion(talle);
                 }
@@ -291,16 +335,16 @@ public class CargaBatch extends InternalFrame {
                 precioReg.setPrecio(precio);
                 articuloReg.getPrecios().add(precioReg);
             } catch (DuplicateException ex) {
-                sLog += "[" + iRow + " Error] En la base de datos existen dos filas para el talle " + talle;
+                sLog += "[" + iRow + " Error] En la base de datos existen dos filas para el talle " + talle + ".\n";
             } catch (SQLException ex) {
-                sLog += "[" + iRow + " Error] Consulta para obtener el talle " + talle;
+                sLog += "[" + iRow + " Error] Consulta para obtener el talle " + talle + ".\n";
             }
         }
     }
 
     private MarcaReg _buscarMarca(String alias) {
         if (alias.length() != 3) {
-            sLog += "[Error] Marca de la linea " + iRow + ": " + alias;
+            sLog += "[Error] Marca de la linea " + iRow + ": " + alias + ".\n";
             return null;
         } else {
             Iterator<MarcaReg> it = marcas.iterator();

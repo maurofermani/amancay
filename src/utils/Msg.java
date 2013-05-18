@@ -4,8 +4,10 @@ import ex.PnlExceptions;
 import java.awt.Component;
 import java.io.File;
 import java.util.logging.Level;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -37,11 +39,11 @@ public class Msg {
     public static final int PLAIN_MESSAGE = JOptionPane.PLAIN_MESSAGE;
 
     public static void msgPlain(Component componentParent, Object message) {
-        msgError(componentParent, message, "");
+        msgPlain(componentParent, message, "");
     }
 
     public static void msgPlain(Component componentParent, Object message, String title) {
-        JOptionPane.showInternalMessageDialog(componentParent, message, title, Msg.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(componentParent, message, title, Msg.PLAIN_MESSAGE);
     }
 
     public static void msgInfo(Component componentParent, Object message) {
@@ -49,7 +51,7 @@ public class Msg {
     }
 
     public static void msgInfo(Component componentParent, Object message, String title) {
-        JOptionPane.showInternalMessageDialog(componentParent, message, title, Msg.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(componentParent, message, title, Msg.INFORMATION_MESSAGE);
     }
 
     public static void msgError(Component componentParent, Object message) {
@@ -57,7 +59,7 @@ public class Msg {
     }
 
     public static void msgError(Component componentParent, Object message, String title) {
-        JOptionPane.showInternalMessageDialog(componentParent, message, title, Msg.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(componentParent, message, title, Msg.ERROR_MESSAGE);
     }
 
     public static void msgWarning(Component componentParent, Object message) {
@@ -65,7 +67,7 @@ public class Msg {
     }
 
     public static void msgWarning(Component componentParent, Object message, String title) {
-        JOptionPane.showInternalMessageDialog(componentParent, message, title, Msg.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(componentParent, message, title, Msg.WARNING_MESSAGE);
     }
 
     public static boolean msgQuestion(Component componentParent, Object message) {
@@ -73,11 +75,25 @@ public class Msg {
     }
 
     public static boolean msgQuestion(Component componentParent, Object message, String title) {
-        return JOptionPane.showInternalConfirmDialog(componentParent, message, title, JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION;
+        return JOptionPane.showConfirmDialog(componentParent, message, title, JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION;
     }
 
     public static boolean msgQuestion(Component componentParent, Object message, String title, int messageType) {
-        return JOptionPane.showInternalConfirmDialog(componentParent, message, title, JOptionPane.OK_CANCEL_OPTION, messageType) == JOptionPane.OK_OPTION;
+        return JOptionPane.showConfirmDialog(componentParent, message, title, JOptionPane.OK_CANCEL_OPTION, messageType) == JOptionPane.OK_OPTION;
+    }
+    
+    public static void msgDialog(JPanel pnl) {
+        msgDialog(pnl, true);
+    }
+    
+    public static void msgDialog (JPanel pnl, boolean modal) {
+        JDialog dialog = new JDialog();
+        dialog.setLayout(new java.awt.BorderLayout());
+        dialog.setModal(modal);
+        dialog.add(pnl, java.awt.BorderLayout.CENTER);
+        dialog.pack();
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
     }
 
     public static void msgException(Component componentParent, Exception exception) {
