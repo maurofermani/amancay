@@ -46,6 +46,7 @@ public class PrecioReg extends ItemReg {
 
     public void setPrecio(double precio) {
         this.precio = precio;
+        this.descripcion = null;
     }
 
     @Override

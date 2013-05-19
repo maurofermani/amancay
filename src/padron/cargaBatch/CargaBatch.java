@@ -83,7 +83,7 @@ public class CargaBatch extends InternalFrame {
                             } else if (column == 4) {
                                 pnlPrecios.setArticulo(ca);
                                 utils.Msg.msgDialog(pnlPrecios);
-                                ((CargaArticulosTableModel) tblArticulos.getModel()).fireTableRowsUpdated(row, row);
+                                ((CargaArticulosTableModel) tblArticulos.getModel()).fireTableDataChanged();
                                 tblArticulos.packAll();
                             }
                         }

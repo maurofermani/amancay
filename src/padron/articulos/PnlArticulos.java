@@ -80,7 +80,7 @@ public class PnlArticulos extends javax.swing.JPanel {
         cboMarca = new javax.swing.JComboBox();
         lblFamilia = new javax.swing.JLabel();
         txtFamilia = new javax.swing.JTextField();
-        pnlTalles = new padron.articulos.PnlPrecios();
+        pnlPrecios = new padron.articulos.PnlPrecios();
         pnlSeleccion = new javax.swing.JPanel();
         scrollTabla = new javax.swing.JScrollPane();
         tblArticulos = new org.jdesktop.swingx.JXTable();
@@ -217,7 +217,7 @@ public class PnlArticulos extends javax.swing.JPanel {
             .addGroup(pnlDatosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlTalles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlPrecios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(pnlDatosLayout.createSequentialGroup()
                         .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(lblDescripcion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -261,7 +261,7 @@ public class PnlArticulos extends javax.swing.JPanel {
                     .addComponent(txtFamilia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblFamilia))
                 .addGap(18, 18, 18)
-                .addComponent(pnlTalles, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                .addComponent(pnlPrecios, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -373,6 +373,7 @@ public class PnlArticulos extends javax.swing.JPanel {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        pnlPrecios.cancelar();
         if (modo == MODO_ALTA) {
             ArticulosTableModel model = (ArticulosTableModel) tblArticulos.getModel();
             int pos = tblArticulos.getSelectedRow();
@@ -442,8 +443,8 @@ public class PnlArticulos extends javax.swing.JPanel {
     private javax.swing.JPanel pnlArticulo;
     private javax.swing.JPanel pnlDatos;
     private javax.swing.JPanel pnlFiltro;
+    private padron.articulos.PnlPrecios pnlPrecios;
     private javax.swing.JPanel pnlSeleccion;
-    private padron.articulos.PnlPrecios pnlTalles;
     private javax.swing.JScrollPane scrollTabla;
     private javax.swing.JSplitPane split;
     private org.jdesktop.swingx.JXTable tblArticulos;
@@ -472,7 +473,7 @@ public class PnlArticulos extends javax.swing.JPanel {
                 txtDescripcion.setEditable(false);
                 txtNroSerie.setEditable(false);
                 cboMarca.setEnabled(false);
-                pnlTalles.setEnabled(false);
+                pnlPrecios.setEnabled(false);
                 btnBaja.setEnabled(true);
                 btnEditar.setEnabled(true);
                 btnNuevo.setEnabled(true);
@@ -489,7 +490,7 @@ public class PnlArticulos extends javax.swing.JPanel {
                 txtDescripcion.setEditable(false);
                 txtNroSerie.setEditable(false);
                 cboMarca.setEnabled(false);
-                pnlTalles.setEnabled(false);
+                pnlPrecios.setEnabled(false);
                 btnBaja.setEnabled(false);
                 btnEditar.setEnabled(false);
                 btnNuevo.setEnabled(false);
@@ -502,7 +503,7 @@ public class PnlArticulos extends javax.swing.JPanel {
                 txtDescripcion.setEditable(true);
                 txtNroSerie.setEditable(true);
                 cboMarca.setEnabled(true);
-                pnlTalles.setEnabled(true);
+                pnlPrecios.setEnabled(true);
                 btnBaja.setEnabled(false);
                 btnEditar.setEnabled(false);
                 btnNuevo.setEnabled(true);
@@ -517,7 +518,7 @@ public class PnlArticulos extends javax.swing.JPanel {
                 txtDescripcion.setEditable(true);
                 txtNroSerie.setEditable(true);
                 cboMarca.setEnabled(false);
-                pnlTalles.setEnabled(true);
+                pnlPrecios.setEnabled(true);
                 btnBaja.setEnabled(false);
                 btnEditar.setEnabled(true);
                 btnNuevo.setEnabled(false);
@@ -541,14 +542,14 @@ public class PnlArticulos extends javax.swing.JPanel {
             txtNroSerie.setText("");
             txtCodigo.setText("MMMM-AAAAAAAAD");
             txtFamilia.setText("");
-            pnlTalles.setArticulo(null);
+            pnlPrecios.setArticulo(null);
         } else {
             txtDescripcion.setText(articululoReg.getDescripcion());
             cboMarca.setSelectedItem(artSeleccionado.getMarcaReg());
             txtNroSerie.setText(articululoReg.getSerialNumber());
             txtCodigo.setText(articululoReg.getCodigo().toString());
             txtFamilia.setText(articululoReg.getFamiliaReg().sPath());
-            pnlTalles.setArticulo(articululoReg);
+            pnlPrecios.setArticulo(articululoReg);
         }
     }
 
@@ -571,7 +572,7 @@ public class PnlArticulos extends javax.swing.JPanel {
             artSeleccionado.setSerialNumber(txtNroSerie.getText().trim().toUpperCase());
             artSeleccionado.setFamiliaReg(familiaSel);
             artSeleccionado.save();
-            pnlTalles.guardar();
+            pnlPrecios.guardar();
             db.Session.getConexion().endTransaction();
         } catch (Exception ex) {
             db.Session.getConexion().rollback();

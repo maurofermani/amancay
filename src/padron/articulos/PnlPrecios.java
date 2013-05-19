@@ -3,8 +3,6 @@ package padron.articulos;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import registros.padron.ArticuloReg;
 import registros.padron.PrecioReg;
@@ -19,6 +17,7 @@ public class PnlPrecios extends javax.swing.JPanel {
     private ArticuloReg articulo;
     private ArrayList<PrecioReg> precios;
     private ArrayList<Boolean> cambios;
+    private ArrayList<Double> bck;
 
     public PnlPrecios() {
         initComponents();
@@ -30,7 +29,13 @@ public class PnlPrecios extends javax.swing.JPanel {
                 this.articulo = articulo;
                 precios = articulo.getPrecios();
                 cambios = new ArrayList<>(precios.size());
-                for (int i = 0; i < precios.size(); i++) {
+                bck = new ArrayList<>(precios.size());
+//                for (int i = 0; i < precios.size(); i++) {
+//                    cambios.add(Boolean.FALSE);
+//                    bck.add(precios);
+//                }
+                for (Iterator<PrecioReg> it = precios.iterator(); it.hasNext();) {
+                    bck.add(it.next().getPrecio());
                     cambios.add(Boolean.FALSE);
                 }
                 tblPrecios.setModel(new PreciosTableModel(precios, cambios));
@@ -219,5 +224,17 @@ public class PnlPrecios extends javax.swing.JPanel {
             }
             i++;
         }
+    }
+    
+    public void cancelar() {
+        int i = 0;
+        for (Iterator<Boolean> it = cambios.iterator(); it.hasNext();) {
+            if (it.next()) {
+                precios.get(i).setPrecio(bck.get(i));
+            }
+            i++;
+        }
+        ((PreciosTableModel) tblPrecios.getModel()).fireTableDataChanged();
+        tblPrecios.packAll();
     }
 }

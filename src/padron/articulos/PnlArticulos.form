@@ -171,7 +171,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="pnlTalles" max="32767" attributes="0"/>
+                              <Component id="pnlPrecios" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                       <Component id="lblDescripcion" max="32767" attributes="0"/>
@@ -228,7 +228,7 @@
                               <Component id="lblFamilia" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="pnlTalles" pref="170" max="32767" attributes="0"/>
+                          <Component id="pnlPrecios" pref="170" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -375,7 +375,7 @@
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="padron.articulos.PnlPrecios" name="pnlTalles">
+                <Component class="padron.articulos.PnlPrecios" name="pnlPrecios">
                 </Component>
               </SubComponents>
             </Container>
