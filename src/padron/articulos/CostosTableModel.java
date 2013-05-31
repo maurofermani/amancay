@@ -2,19 +2,19 @@ package padron.articulos;
 
 import herramientas.GenericTableModel;
 import java.util.ArrayList;
-import registros.padron.PrecioReg;
+import registros.padron.CostoReg;
 
 /**
  *
  * @author fermani
  */
-public class PreciosTableModel extends GenericTableModel {
+public class CostosTableModel extends GenericTableModel {
 
-    private ArrayList<PrecioReg> datos;
+    private ArrayList<CostoReg> datos;
     private ArrayList<Boolean> cambios;
 
-    public PreciosTableModel(ArrayList<PrecioReg> datos, ArrayList<Boolean> cambios) {
-        super(new String[]{"Talle", "Precio"});
+    public CostosTableModel(ArrayList<CostoReg> datos, ArrayList<Boolean> cambios) {
+        super(new String[]{"Talle", "Costo"});
         this.datos = datos;
         this.cambios = cambios;
     }
@@ -38,12 +38,12 @@ public class PreciosTableModel extends GenericTableModel {
         return datos.size();
     }
 
-    public void addRow(PrecioReg precioReg) {
-        datos.add(precioReg);
+    public void addRow(CostoReg costoReg) {
+        datos.add(costoReg);
         fireTableDataChanged();
     }
 
-    public PrecioReg getRow(int row) {
+    public CostoReg getRow(int row) {
         return datos.get(row);
     }
 
@@ -53,7 +53,7 @@ public class PreciosTableModel extends GenericTableModel {
             case 0:
                 return datos.get(rowIndex).getTalleReg().toString();
             case 1:
-                return datos.get(rowIndex).getPrecio();
+                return datos.get(rowIndex).getCosto();
             default:
                 throw new AssertionError();
         }
@@ -63,8 +63,8 @@ public class PreciosTableModel extends GenericTableModel {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         if (columnIndex == 1 && aValue instanceof Double) {
             Double aDouble = (Double) aValue;
-            if (aDouble != datos.get(rowIndex).getPrecio()) {
-                datos.get(rowIndex).setPrecio((Double) aValue);
+            if (aDouble != datos.get(rowIndex).getCosto()) {
+                datos.get(rowIndex).setCosto((Double) aValue);
                 cambios.set(rowIndex, Boolean.TRUE);
             }
         }

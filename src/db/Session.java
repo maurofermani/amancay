@@ -63,7 +63,7 @@ public class Session {
         if (properties == null) {
             try {
                 properties = new Properties();
-                properties.load(new FileInputStream(Session.class.getResource("/config/db.properties").getPath()));
+                properties.load(new FileInputStream("config/db.properties"));
             } catch (IOException ex) {
                 Logger.log(Level.SEVERE, ex);
                 throw ex;

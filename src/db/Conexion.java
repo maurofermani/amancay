@@ -25,11 +25,11 @@ public class Conexion {
 
     public Conexion() {
         try {
-            File file = new File(Conexion.class.getResource("/log/").getPath() + "logSQL.log");
+            File file = new File("log/logSQL.log");
             if (!file.exists()) {
                 file.createNewFile();
             }
-            FileHandler fh = new FileHandler(getClass().getResource("/log/logSQL.log").getFile(), true);
+            FileHandler fh = new FileHandler("log/logSQL.log", true);
             loggerSQL.addHandler(fh);
             loggerSQL.setLevel(Level.ALL);
             //Para mostrar por consola el logger

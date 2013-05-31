@@ -18,11 +18,14 @@ public class CargaArticuloReg extends ArticuloReg {
         guardar = true;
         super.save();
     }
+
     @Override
     public void setDescripcion(String descripcion) {
-        super.setDescripcion(descripcion);
-        if (arrDesc.indexOf(descripcion) == -1) {
-            arrDesc.add(descripcion);
+        if (!descripcion.trim().isEmpty()) {
+            super.setDescripcion(descripcion);
+            if (arrDesc.indexOf(descripcion) == -1) {
+                arrDesc.add(descripcion);
+            }
         }
     }
 
@@ -30,18 +33,28 @@ public class CargaArticuloReg extends ArticuloReg {
     public String getDescripcion() {
         if (guardar) {
             return super.getDescripcion();
-        } else if (arrDesc.size() != 1) {
+        } else if (arrDesc.size() > 1) {
             return "* " + super.getDescripcion();
         } else {
             return "  " + super.getDescripcion();
         }
     }
-    
+
     public ArrayList<String> getArrDescripcion() {
         return arrDesc;
-    }    
+    }
 
-    boolean consistencia() {
-        return getMarcaReg() != null && getFamiliaReg() != null;
+    public boolean consistencia() {
+        return marcaReg != null
+                && familiaReg != null
+                && (descripcion != null && !descripcion.trim().isEmpty());
+    }
+
+    public boolean isEmpty() {
+        return arrDesc.isEmpty()
+                && marcaReg == null
+                && familiaReg == null
+                && serialNumber == null
+                && costos.isEmpty();
     }
 }

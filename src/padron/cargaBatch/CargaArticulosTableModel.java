@@ -10,7 +10,7 @@ import javax.swing.DefaultComboBoxModel;
 import org.jdesktop.swingx.JXComboBox;
 import registros.padron.FamiliaReg;
 import registros.padron.MarcaReg;
-import registros.padron.PrecioReg;
+import registros.padron.CostoReg;
 
 /**
  *
@@ -46,6 +46,8 @@ public class CargaArticulosTableModel extends GenericTableModel {
             return true;
         } else if (columnIndex == 2 || columnIndex == 4 || columnIndex == 5) {
             return false;
+        } else if (columnIndex == 0) {
+            return articulos.get(rowIndex).isNew();
         } else {
             return true;
         }
@@ -67,6 +69,11 @@ public class CargaArticulosTableModel extends GenericTableModel {
         return articulos.get(index);
     }
 
+    public void newRow() {
+        articulos.add(new CargaArticuloReg());
+        fireTableDataChanged();
+    }
+    
     @Override
     public int getRowCount() {
         return articulos.size();
@@ -86,7 +93,7 @@ public class CargaArticulosTableModel extends GenericTableModel {
                 return art.getDescripcion();
             case 4:
                 try {
-                    return _precios(art.getPrecios());
+                    return _costos(art.getCostos());
                 } catch (SQLException ex) {
                     return "";
                 }
@@ -97,12 +104,12 @@ public class CargaArticulosTableModel extends GenericTableModel {
         }
     }
 
-    private Object _precios(ArrayList<PrecioReg> precios) {
+    private Object _costos(ArrayList<CostoReg> costos) {
         String rtdo = "[";
-        for (Iterator<PrecioReg> it = precios.iterator(); it.hasNext();) {
-            PrecioReg precioReg = it.next();
-            rtdo += (precioReg.getTalleReg().getId() == 0 ? "*" : "")
-                    + precioReg.getDescripcion() + ", ";
+        for (Iterator<CostoReg> it = costos.iterator(); it.hasNext();) {
+            CostoReg costoReg = it.next();
+            rtdo += (costoReg.getTalleReg().getId() == 0 ? "*" : "")
+                    + costoReg.getDescripcion() + ", ";
         }
         rtdo = rtdo.replaceAll(", $", "");
         return rtdo + "]";
@@ -116,10 +123,17 @@ public class CargaArticulosTableModel extends GenericTableModel {
                 art.setMarcaReg((MarcaReg) aValue);
                 break;
             case 1:
-                art.setSerialNumber((String) aValue);
+                String sn = ((String) aValue).trim().toUpperCase();
+                if (!sn.isEmpty()) {
+                    art.setSerialNumber(sn);
+                }
+                break;
             case 3:
                 art.setDescripcion(((String) aValue).replaceAll("^ \\* ", "").toUpperCase());
                 break;
+        }
+        if (!articulos.get(articulos.size() - 1).isEmpty()) {
+            newRow();
         }
     }
 }

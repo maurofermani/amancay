@@ -44,12 +44,12 @@ create table pdr_articulos (
 	foreign key(marca_id) references pdr_marcas(id)
 ) ENGINE=InnoDB;
 
-create table pdr_precios (
+create table pdr_costos (
 	id serial,
 	estado_id SMALLINT not null default 0,
 	articulo_id bigint(20) unsigned,
 	talle_id bigint(20) unsigned,
-	precio decimal(10,3) unsigned default 0,
+	costo decimal(10,3) unsigned default 0,
 
 	primary key(id),
 	unique index (articulo_id, talle_id),
@@ -57,6 +57,25 @@ create table pdr_precios (
 	foreign key(articulo_id) references pdr_articulos(id),
 	foreign key(talle_id) references pdr_talles(id)
 ) ENGINE=InnoDB;
+
+create table pdr_intereses (
+	id serial,
+	estado_id SMALLINT not null default 0,
+	descripcion varchar(255) not null,
+	interes decimal(10,3) unsigned not null,
+
+	primary key(id)
+) ENGINE=InnoDB;
+
+create table pdr_interes_rel (
+	interes_id bigint(20) unsigned,
+	item_id bigint(20) unsigned,
+	tipo_id SMALLINT not null,
+
+	unique index(interes_id, item_id, tipo_id),
+	foreign key(interes_id) references pdr_intereses(id)
+) ENGINE=InnoDB;
+
 
 
 ------------- MODULO DE STOCK ------------- 

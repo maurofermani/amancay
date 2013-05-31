@@ -19,11 +19,11 @@ import padron.articulos.Codigo;
 public class ArticuloReg extends ItemReg {
 
     public static final short DISCONTINUADO = 3;
-    private FamiliaReg familiaReg;
-    private MarcaReg marcaReg;
-    private String serialNumber;
-    private Codigo codigo;
-    private ArrayList<PrecioReg> precios;
+    protected FamiliaReg familiaReg;
+    protected MarcaReg marcaReg;
+    protected String serialNumber;
+    protected Codigo codigo;
+    protected ArrayList<CostoReg> costos;
 
     public FamiliaReg getFamiliaReg() {
         return familiaReg;
@@ -41,15 +41,19 @@ public class ArticuloReg extends ItemReg {
         this.marcaReg = marcaReg;
     }
 
-    public ArrayList<PrecioReg> getPrecios() throws SQLException {
-        if (precios == null) {
-            precios = precios();
+    public ArrayList<CostoReg> getCostos() throws SQLException {
+        if (costos == null) {
+            if (id != 0) {
+                costos = costos();
+            } else {
+                costos = new ArrayList<>();
+            }
         }
-        return precios;
+        return costos;
     }
 
-    public void setPrecios(ArrayList<PrecioReg> precios) {
-        this.precios = precios;
+    public void setCostos(ArrayList<CostoReg> costos) {
+        this.costos = costos;
     }
 
     /**
@@ -131,13 +135,13 @@ public class ArticuloReg extends ItemReg {
                     + getCodigo().getCodigo() + ");";
             conexion.execUpdate(qry);
             setId(conexion.getSerial());
-            
-            for (Iterator<PrecioReg> it = precios.iterator(); it.hasNext();) {
-                PrecioReg precioReg = it.next();
-                if (precioReg.getTalleReg().isNew()) {
-                    precioReg.getTalleReg().save();
+
+            for (Iterator<CostoReg> it = costos.iterator(); it.hasNext();) {
+                CostoReg costoReg = it.next();
+                if (costoReg.getTalleReg().isNew()) {
+                    costoReg.getTalleReg().save();
                 }
-                precioReg.save();
+                costoReg.save();
             }
 
             conexion.endTransaction();
@@ -160,7 +164,8 @@ public class ArticuloReg extends ItemReg {
         String qry = ""
                 + "update pdr_articulos set"
                 + "     descripcion = '" + getDescripcion() + "',"
-                + "     serial_number = '" + getSerialNumber() + "' "
+                + "     serial_number = '" + getSerialNumber() + "', "
+                + "     familia_id = " + getFamiliaReg().getId() + " "
                 + "where "
                 + "     id = " + getId() + ";";
         db.Session.getConexion().execUpdate(qry);
@@ -211,47 +216,47 @@ public class ArticuloReg extends ItemReg {
     }
 
     /**
-     * Devuelve todos los talles activos junto al precio de articulo
+     * Devuelve todos los talles activos junto al costo de articulo
      *
      * @return
      * @throws SQLException
      */
-    private ArrayList<PrecioReg> precios() throws SQLException {
+    private ArrayList<CostoReg> costos() throws SQLException {
         String qry = ""
                 + " select "
-                + "     p.id, "
-                + "     p.estado_id, "
-                + "     p.precio, "
-                + "     p.talle_id, "
+                + "     c.id, "
+                + "     c.estado_id, "
+                + "     c.costo, "
+                + "     c.talle_id, "
                 + "     t.descripcion desc_talle, "
                 + "     t.estado_id est_talle "
                 + " from "
-                + "     pdr_precios p "
-                + "         join pdr_talles t on (p.talle_id = t.id) "
+                + "     pdr_costos c "
+                + "         join pdr_talles t on (c.talle_id = t.id) "
                 + " where "
-                + "     p.estado_id != " + BAJA + " "
+                + "     c.estado_id != " + BAJA + " "
                 + "     and t.estado_id != " + TalleReg.BAJA + " "
-                + "     and p.articulo_id = " + getId() + ";";
+                + "     and c.articulo_id = " + getId() + ";";
         ResultSet rs = db.Session.getConexion().execSQLSelect(qry);
-        precios = new ArrayList<>();
-        PrecioReg precioReg;
+        costos = new ArrayList<>();
+        CostoReg costoReg;
         TalleReg talleReg;
         while (rs.next()) {
-            precioReg = new PrecioReg();
-            precioReg.setArticuloReg(this);
-            precioReg.setId(rs.getLong("id"));
-            precioReg.setEstado(rs.getShort("estado_id"));
-            precioReg.setPrecio(rs.getDouble("precio"));
+            costoReg = new CostoReg();
+            costoReg.setArticuloReg(this);
+            costoReg.setId(rs.getLong("id"));
+            costoReg.setEstado(rs.getShort("estado_id"));
+            costoReg.setCosto(rs.getDouble("costo"));
 
             talleReg = new TalleReg();
             talleReg.setId(rs.getLong("talle_id"));
             talleReg.setDescripcion(rs.getString("desc_talle"));
             talleReg.setEstado(rs.getShort("est_talle"));
-            precioReg.setTalleReg(talleReg);
+            costoReg.setTalleReg(talleReg);
 
-            precios.add(precioReg);
+            costos.add(costoReg);
         }
-        return precios;
+        return costos;
     }
 
     public ArrayList<TalleReg> tallesLibres() throws SQLException {

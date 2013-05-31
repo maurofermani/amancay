@@ -6,6 +6,8 @@ import ex.Logger;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
@@ -18,16 +20,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.Level;
+import javax.swing.AbstractAction;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTable;
-import javax.swing.table.TableCellEditor;
+import javax.swing.KeyStroke;
 import javax.swing.table.TableCellRenderer;
 import org.jdesktop.swingx.JXComboBox;
 import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 import padron.familias.PnlFamilias;
 import registros.padron.FamiliaReg;
 import registros.padron.MarcaReg;
-import registros.padron.PrecioReg;
+import registros.padron.CostoReg;
 import registros.padron.TalleReg;
 
 /**
@@ -40,6 +43,7 @@ public class CargaBatch extends InternalFrame {
     private String sLog;
     private ArrayList<MarcaReg> marcas;
     private HashMap<String, CargaArticuloReg> articulos;
+    private static final String solve = "Solve";
 
     public CargaBatch() {
         super();
@@ -66,7 +70,7 @@ public class CargaBatch extends InternalFrame {
                 }
 
                 private boolean error(CargaArticuloReg ca) {
-                    return ca.getMarcaReg() == null || ca.getFamiliaReg() == null;
+                    return !ca.consistencia();
                 }
             };
             tblArticulos.addMouseListener(new MouseAdapter() {
@@ -81,8 +85,8 @@ public class CargaBatch extends InternalFrame {
                             if (column == 5) {
                                 _seleccionarFamilia(ca);
                             } else if (column == 4) {
-                                pnlPrecios.setArticulo(ca);
-                                utils.Msg.msgDialog(pnlPrecios);
+                                pnlCostos.setArticulo(ca);
+                                utils.Msg.msgDialog(pnlCostos);
                                 ((CargaArticulosTableModel) tblArticulos.getModel()).fireTableDataChanged();
                                 tblArticulos.packAll();
                             }
@@ -92,32 +96,52 @@ public class CargaBatch extends InternalFrame {
             });
             JXComboBox cboDescripcion = new JXComboBox();
             cboDescripcion.setEditable(true);
-            tblArticulos.setModel(new CargaArticulosTableModel(cboDescripcion));
+            CargaArticulosTableModel model = new CargaArticulosTableModel(cboDescripcion);
+            model.newRow();
+            tblArticulos.setModel(model);
             marcas = MarcaReg.marcas();
             JXComboBox cboMarcas = new JXComboBox(new DefaultComboBoxModel(marcas.toArray()));
             tblArticulos.setDefaultEditor(MarcaReg.class, new ComboBoxCellEditor(cboMarcas));
             tblArticulos.getColumnExt("Descripcion").setCellEditor(new ComboBoxCellEditor(cboDescripcion) {
-
                 @Override
                 public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
                     return super.getTableCellEditorComponent(table, value.toString().replaceAll("^\\* ", "").replaceAll("  ", ""), isSelected, row, column);
                 }
-                
             });
             tblArticulos.setDefaultEditor(FamiliaReg.class, new FamiliaCellEditor());
             scroll.setViewportView(tblArticulos);
             tblArticulos.packAll();
             tblArticulos.setHorizontalScrollEnabled(true);
-            lblInfoBarra.setToolTipText("Clic para ver los errores");
-                lblInfoBarra.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                lblInfoBarra.addMouseListener(new MouseAdapter() {
+            KeyStroke enter = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
+            tblArticulos.getInputMap(JTable.WHEN_FOCUSED).put(enter, "enter");
+            tblArticulos.getActionMap().put("enter", new AbstractAction() {
 
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        txtLog.setText(sLog);
-                        utils.Msg.msgPlain(scroll, scrollLog, "Detalles de la carga");
-                    }
-                });
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int row = tblArticulos.getSelectedRow();
+                        if (row != -1) {
+                            int column = tblArticulos.getSelectedColumn();
+                            if (column == tblArticulos.getColumnCount() - 1) {
+                                if (row < tblArticulos.getRowCount() - 1) {
+                                    tblArticulos.changeSelection(row + 1, 0, false, false);
+                                }
+                            } else {
+                                tblArticulos.changeSelection(row, column + 1, false, false);
+                            }
+                        }
+                }
+            });
+            
+            lblInfoBarra.setToolTipText("Clic para ver los errores");
+            lblInfoBarra.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            lblInfoBarra.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    txtLog.setText(sLog);
+                    utils.Msg.msgPlain(scroll, scrollLog, "Detalles de la carga");
+                }
+            });
+            
         } catch (SQLException ex) {
             Logger.log(Level.SEVERE, ex);
         }
@@ -129,7 +153,7 @@ public class CargaBatch extends InternalFrame {
 
         scrollLog = new javax.swing.JScrollPane();
         txtLog = new javax.swing.JTextPane();
-        pnlPrecios = new padron.articulos.PnlPrecios();
+        pnlCostos = new padron.articulos.PnlCostos();
         hdrTituto = new org.jdesktop.swingx.JXHeader();
         tbrEstado = new javax.swing.JToolBar();
         lblInfoBarra = new javax.swing.JLabel();
@@ -148,9 +172,9 @@ public class CargaBatch extends InternalFrame {
         txtLog.setEditable(false);
         scrollLog.setViewportView(txtLog);
 
-        pnlPrecios.setMaximumSize(new java.awt.Dimension(350, 260));
-        pnlPrecios.setMinimumSize(new java.awt.Dimension(350, 260));
-        pnlPrecios.setPreferredSize(new java.awt.Dimension(350, 260));
+        pnlCostos.setMaximumSize(new java.awt.Dimension(350, 260));
+        pnlCostos.setMinimumSize(new java.awt.Dimension(350, 260));
+        pnlCostos.setPreferredSize(new java.awt.Dimension(350, 260));
 
         hdrTituto.setDescription("Carga de árticulos");
         getContentPane().add(hdrTituto, java.awt.BorderLayout.PAGE_START);
@@ -196,7 +220,7 @@ public class CargaBatch extends InternalFrame {
                 .addComponent(txtFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnFile)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 195, Short.MAX_VALUE)
                 .addComponent(btnProcesar)
                 .addContainerGap())
         );
@@ -261,7 +285,7 @@ public class CargaBatch extends InternalFrame {
             }
             ((CargaArticulosTableModel) tblArticulos.getModel()).setArticulos(articulos);
             tblArticulos.packAll();
-            lblInfoBarra.setText("<html><font color='green'>Líneas procesadas: " + iRow 
+            lblInfoBarra.setText("<html><font color='green'>Líneas procesadas: " + iRow
                     + " - Articulos cargados: " + tblArticulos.getRowCount() + "</font></html>");
         }
     }//GEN-LAST:event_btnFileActionPerformed
@@ -279,6 +303,7 @@ public class CargaBatch extends InternalFrame {
             }
         }
     }//GEN-LAST:event_btnProcesarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFile;
     private javax.swing.JButton btnProcesar;
@@ -286,7 +311,7 @@ public class CargaBatch extends InternalFrame {
     private javax.swing.JLabel lblInfoBarra;
     private javax.swing.JPanel pnlCarga;
     private javax.swing.JPanel pnlCentral;
-    private padron.articulos.PnlPrecios pnlPrecios;
+    private padron.articulos.PnlCostos pnlCostos;
     private javax.swing.JScrollPane scroll;
     private javax.swing.JScrollPane scrollLog;
     private org.jdesktop.swingx.JXTable tblArticulos;
@@ -305,11 +330,11 @@ public class CargaBatch extends InternalFrame {
             String descripcion = split[2].toUpperCase();
             String talle = split[3];
             talle = (talle.isEmpty() ? "TU" : talle);
-            double precio;
+            double costo;
             try {
-                precio = Double.parseDouble(split[4].replace(',', '.'));
+                costo = Double.parseDouble(split[4].replace(',', '.'));
             } catch (NumberFormatException ex) {
-                precio = -1;
+                costo = -1;
             }
             CargaArticuloReg articuloReg;
             if (articulos.containsKey(alias + nroSerie)) {
@@ -321,7 +346,7 @@ public class CargaBatch extends InternalFrame {
             }
             articuloReg.setMarcaReg(_buscarMarca(alias));
             articuloReg.setDescripcion(descripcion);
-            PrecioReg precioReg = new PrecioReg();
+            CostoReg costoReg = new CostoReg();
             TalleReg talleReg;
             try {
                 talleReg = TalleReg.findDescripcion(talle);
@@ -330,10 +355,10 @@ public class CargaBatch extends InternalFrame {
                     talleReg = new TalleReg();
                     talleReg.setDescripcion(talle);
                 }
-                precioReg.setTalleReg(talleReg);
-                precioReg.setArticuloReg(articuloReg);
-                precioReg.setPrecio(precio);
-                articuloReg.getPrecios().add(precioReg);
+                costoReg.setTalleReg(talleReg);
+                costoReg.setArticuloReg(articuloReg);
+                costoReg.setCosto(costo);
+                articuloReg.getCostos().add(costoReg);
             } catch (DuplicateException ex) {
                 sLog += "[" + iRow + " Error] En la base de datos existen dos filas para el talle " + talle + ".\n";
             } catch (SQLException ex) {

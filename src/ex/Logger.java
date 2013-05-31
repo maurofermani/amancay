@@ -1,6 +1,5 @@
 package ex;
 
-import db.Conexion;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.FileHandler;
@@ -17,12 +16,13 @@ public class Logger {
 
     private static void crearLog() {
         try {
-            File file = new File(Conexion.class.getResource("/log/").getPath() + "logClient.log");
+            File file = new File("log/logClient.log");
+            System.out.println(file.getAbsoluteFile());
             if (!file.exists()) {
                 file.createNewFile();
             }
             FileHandler fh;
-            fh = new FileHandler(Logger.class.getResource("/log/logClient.log").getFile(), true);
+            fh = new FileHandler("log/logClient.log", true);
             logger.addHandler(fh);
             logger.setLevel(Level.ALL);
             //Para mostrar por consola el logger

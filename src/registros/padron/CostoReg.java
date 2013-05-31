@@ -6,11 +6,11 @@ import java.sql.SQLException;
  *
  * @author fermani
  */
-public class PrecioReg extends ItemReg {
+public class CostoReg extends ItemReg {
 
     protected ArticuloReg articuloReg;
     protected TalleReg talleReg;
-    protected double precio;
+    protected double costo;
 
     public ArticuloReg getArticuloReg() {
         return articuloReg;
@@ -35,27 +35,27 @@ public class PrecioReg extends ItemReg {
             if (talleReg != null) {
                 descripcion += talleReg.getDescripcion();
             }
-            descripcion += "-> " + getPrecio();
+            descripcion += "-> " + getCosto();
         }
         return descripcion;
     }
 
-    public double getPrecio() {
-        return precio;
+    public double getCosto() {
+        return costo;
     }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
+    public void setCosto(double costo) {
+        this.costo = costo;
         this.descripcion = null;
     }
 
     @Override
     public void insert() throws SQLException {
         String qry = ""
-                + "insert into pdr_precios (articulo_id, talle_id, precio) values ("
+                + "insert into pdr_costos (articulo_id, talle_id, costo) values ("
                 + getArticuloReg().getId() + ", "
                 + getTalleReg().getId() + ", "
-                + getPrecio() + ");";
+                + getCosto() + ");";
         db.Session.getConexion().execUpdate(qry);
         setId(db.Session.getConexion().getSerial());
     }
@@ -70,8 +70,8 @@ public class PrecioReg extends ItemReg {
     @Override
     public void update() throws SQLException {
         String qry = ""
-                + "update pdr_precios set "
-                + " precio = " + getPrecio() + " "
+                + "update pdr_costos set "
+                + " costo = " + getCosto() + " "
                 + "where ";
         if (getId() != 0) {
             qry += " id = " + getId() + ";";
@@ -80,7 +80,7 @@ public class PrecioReg extends ItemReg {
             qry += " articulo_id = " + getArticuloReg().getId() + " "
                     + " talle_id = " + getTalleReg().getId() + ";";
         } else {
-            throw new SQLException("Error al actualizar el precio. No existe la clave");
+            throw new SQLException("Error al actualizar el costo. No existe la clave");
         }
         db.Session.getConexion().execUpdate(qry);
     }
@@ -88,7 +88,7 @@ public class PrecioReg extends ItemReg {
     @Override
     public void drop() throws SQLException {
         String qry = ""
-                + "update pdr_precios set"
+                + "update pdr_costos set"
                 + "     estado_id = " + BAJA + " "
                 + "where "
                 + "     id = " + getId() + ";";

@@ -1,6 +1,8 @@
 package amancay;
 
 import ex.Logger;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 import javax.swing.JDesktopPane;
@@ -283,6 +285,8 @@ public class Amancay extends javax.swing.JFrame {
             public void run() {
                 try {
                     Amancay amancay = new Amancay();
+                    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+                    amancay.setSize((int) (screenSize.getWidth() * 0.8), (int) (screenSize.getHeight() * 0.9));
                     amancay.setLocationRelativeTo(null);
                     amancay.setVisible(true);
                 } catch (Exception ex) {
